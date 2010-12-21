@@ -11,8 +11,8 @@ gnuplot <<END
     "filtered.out" using 1 title "high pass filter" with lines
 
   set terminal push
-  set terminal svg
-  set output "filtered.svg"
+  set terminal png
+  set output "filtered.png"
   replot
   set output
   set terminal pop
