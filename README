@@ -13,14 +13,24 @@ Solution
 High-pass filter
 http://en.wikipedia.org/wiki/High-pass_filter
 
+Usage
+=====
+
+% ./high-pass-filter.sh [series] [alpha] [beta]
+
+where,
+
+ [series] - time series
+ [alpha]  - frequency cutoff.
+ [beta]   - amplitude cutoff.
+
+Larger alpha means higher frequency cutoff (more noise); larger beta means
+higher amplitude cutoff (less noise).
+
 Sample
 ======
 
-% ./high-pass-filter.sh series.txt 0.8
+% ./high-pass-filter.sh series.txt 0.8 0.05
 
 (Need Scala 2.8.x and gnuplot 4.x on your PATH)
-
-Look at graph: all data points on the "high-pass filter" curve below zero
-represent sudden drops -- where sudden drop is defined by alpha value 0.8 above.
-Tweak to your liking.
 

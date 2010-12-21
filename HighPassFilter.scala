@@ -1,12 +1,4 @@
 
-import scala.io.Source
-import scala.collection.mutable.ArrayBuffer
-import java.io._
-
-def readSeries(filename: String) = {
-  Source.fromFile(filename).getLines map { _.toFloat } toArray
-}
-
 // See Wikipedia article "High-pass filter"
 // http://en.wikipedia.org/wiki/High-pass_filter
 def highPassFilter(x: IndexedSeq[Float], alpha: Float) = {
@@ -18,20 +10,22 @@ def highPassFilter(x: IndexedSeq[Float], alpha: Float) = {
   y
 }
 
-def writeSeries(filename: String, points: Array[Float]) {
-  val out = new PrintStream(new FileOutputStream(filename))
-  try {
-    points foreach { out.println(_) }
-  } finally {
-    out.close()
+// Retain only drops (negative first derivative)
+// and remove noise (beta amplitude filter)
+def filterDrops(x: Array[Float], beta: Float) = {
+  val y = new Array[Float](x.length)
+  y(0) = 0
+  for (i <- 1 until x.length) {
+    y(i) = if (x(i) < 0.0f && x(i) < -beta && x(i) < x(i-1)) x(i) else 0.0f
   }
+  y
 }
 
-val filename = args(0)
-val alpha = args(1).toFloat
+val alpha = args(0).toFloat
+val beta = args(1).toFloat
 
-val points = readSeries(filename)
-val filtered = highPassFilter(points, alpha)
+val series = scala.io.Source.stdin.getLines map (_.toFloat) toArray
+val filtered = highPassFilter(series, alpha)
+val drops = filterDrops(filtered, beta)
 
-writeSeries(filename + ".out", filtered)
-
+drops foreach (println(_: Float))
