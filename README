@@ -21,6 +21,6 @@ Sample
 (Need Scala 2.8.x and gnuplot 4.x on your PATH)
 
 Look at graph: all data points on the "high-pass filter" curve below zero
-represent sudden drops -- where sudden drop is set by alpha value 0.8 above.
+represent sudden drops -- where sudden drop is defined by alpha value 0.8 above.
 Tweak to your liking.
 
